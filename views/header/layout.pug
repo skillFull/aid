@@ -1,0 +1,9 @@
+head
+  link(href="https://fonts.googleapis.com/css2?family=PT+Sans+Caption&display=swap" rel="stylesheet")
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  case types
+    when 'events'
+      script(defer='defer', src='/javascripts/use.js')
+    when 'message'
+      script(defer="defer", src="/javascripts/message.js")
+  block content

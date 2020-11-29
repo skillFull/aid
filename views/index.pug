@@ -1,0 +1,13 @@
+doctype html
+html 
+    -var types = title
+    include header/layout.pug
+    body
+    include header/header.pug
+    case types
+        when 'home'
+            include content/home/content.pug
+        when 'events'
+            include content/Events/event.pug
+        when 'message'
+            include content/Message/message.pug

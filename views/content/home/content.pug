@@ -1,0 +1,10 @@
+block content
+- var collection = contents
+    if collection.length === 0
+        div.not_events Not events
+    else if collection.length !== 0
+    each val in collection
+        div.upcoming_events
+        h2= val.event
+        p= val.descriptionEvent
+        block content
