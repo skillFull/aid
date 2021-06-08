@@ -1,5 +1,5 @@
 const express = require('express');
-const query = require('../../model/data_base/Data');
+const query = require('../../model/Data');
 const router = express.Router();
 
 // Get home page

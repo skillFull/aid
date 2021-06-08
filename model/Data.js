@@ -2,49 +2,68 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/aid', {useNewUrlParser: true, useUnifiedTopology: true});
 
-const eventUser = mongoose.Schema({
-    event: String,
-    descriptionEvent: String,
-    positionEvent: {
-        latitude: Number,
-        longitude: Number,
+const User = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    user_id: String,
+    email: String,
+    created_at: Date,
+    name: String,
+    avatar: {
+        name: String,
+        path: String
     },
-    Date: Number,
+    screen_name: String,
+    location: String,
+    url: String,
+    frends_count: Number,
+    frends_urls: [String],
+    favourites_count: Number,
+    favourites_urls:[String]
 });
 
-const events = mongoose.model('events', eventUser);
+const user = mongoose.model('users', User);
 
-const user = mongoose.Schema({
-    user : {
+const Post = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    post_id: String,
+    created_at: Date,
+    place: {
+        coordinates: {
+            lat: mongoose.Schema.Types.Decimal128,
+            lng: mongoose.Schema.Types.Decimal128,
+        },
+        country: String,
+        city_name: String
+    },
+    user_name: String,
+    message: String,
+    images: [{
         name: String,
-        surname: String,
-    },
-
-    birthday: Number,
-    location: String,
-    frends: Array,
-    login : {
-        username: String,
-        password: String,
-    },
-    email: String,
-
+        url: String
+    }],
+    favorite_count: Number,
 })
 
-const users = mongoose.model('users', user)
+const post = mongoose.model('posts', Post)
 
 const query = {
     // Write users new event collection 
     writeEvent (body) {
 
-        const regEvent = new events({
-            event: body.onEvent,
-            descriptionEvent: body.descriptionEvent,
-            positionEvent: {
-                latitude: body.latitude,
-                longitude: body.longitude,
+        const regEvent = new post({
+            _id: new mongoose.Types.ObjectId,
+            place:{
+                coordinates:{
+                    lat: 321312.31231,
+                    lng: 321312.31231
+                },
+                country: 's',
+                city_name: "body.city_name",
             },
-            Date: body.Date,
+            user_name: 'body.user_name',
+            favorite_count: 0,
+            message: body.message,
+            created_date: Date.now,
         })
         
         regEvent.save((err) => {
@@ -57,15 +76,16 @@ const query = {
 
     // Get users event collection
     async getCollection () {
-       let result;
-       await events.find({}, (err, event) => {
-           if( err){ 
+       let result ;
+       await post.find({}).select('-_id -place -__v').exec((err, post) =>{
+           if(err){
                console.log(err)
            }
            else{
-               result = event;
+               console.log(post);
+               result = post;
            }
-       });
+       })
        return result;
         
     },

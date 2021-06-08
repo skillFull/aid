@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const query = require('../../model/data_base/Data');
+const query = require('../../model/Data');
 
 
 router.get('/', (req, res) => {

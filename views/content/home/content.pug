@@ -4,7 +4,5 @@ block content
         div.not_events Not events
     else if collection.length !== 0
     each val in collection
-        div.upcoming_events
-        h2= val.event
-        p= val.descriptionEvent
+        div= val
         block content
