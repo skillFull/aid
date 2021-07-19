@@ -1,8 +1,8 @@
 block content
 - var collection = contents
     if collection.length === 0
-        div.not_events Not events
-    else if collection.length !== 0
+        include ../../error404.pug 
+    else if collection.length !== 0 || undefined
     each val in collection
         div= val
         block content

@@ -3,18 +3,15 @@
 const createError = require('http-errors'),
       express = require('express'),
       path = require('path'),
-      cookieParser = require('cookie-parser'),
       logger = require('morgan'),
 
-      indexRouter = require('./controller/routes/index'),
-      eventsRouter = require('./controller/routes/events'),
-      loginRouter = require('./controller/routes/login'),
-      message = require('./controller/routes/message'),
+      controller = require('./controller'),
       expressSession = require('express-session'),
       passport = require('passport'),
       localPassport = require('passport-local').Strategy,
       flash = require('connect-flash'),
       app = express();
+      
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,19 +20,15 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
-// app.use(expressSession());
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session())
 
 
+app.use( controller );
 
-app.use('/', indexRouter);
-app.use('/events', eventsRouter);
-app.use('/messages', message);
-app.use('/login', loginRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
